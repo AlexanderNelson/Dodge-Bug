@@ -1,15 +1,27 @@
 leftRight = 101;
 upDown = 83;
+
+
+const variator = function() {
+    return Math.floor(Math.random() * 2) + 1;
+}
+
+random = variator();
+// function variator(min, max) {
+//   min = Math.ceil(min);
+//   max = Math.floor();
+//   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+// }
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+var Enemy = function(x, y, mph) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-
-    this.x = leftRight;
-    this.y = upDown - 25;
+    this.x = x;
+    this.y = y + 63;
+    this.mph = mph;
     this.sprite = 'images/enemy-bug.png';
     this.move = leftRight;
     this.pathEnd = leftRight * 5;
@@ -23,7 +35,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if(this.x < this.pathEnd) {
-        this.x += 300 * dt;
+        this.x += this.mph * dt;
     }
     else {
         this.x = this.pathStart;
@@ -70,9 +82,12 @@ class Hero {
     }
 };
 const player = new Hero();
-const volkswagen = new Enemy();
+const volkswagen = new Enemy(-101, 0, 200 * variator());
+const audi = new Enemy(-101, 83*random, 300 * variator());
+const warranty = new Enemy(-101*random, 166, 172 * variator());
 const everyThingAwful = [];
-everyThingAwful.push(volkswagen);
+console.log(everyThingAwful);
+everyThingAwful.push(volkswagen, audi, warranty);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
