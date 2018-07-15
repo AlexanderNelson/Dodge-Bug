@@ -1,11 +1,19 @@
+leftRight = 101;
+upDown = 83;
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x,y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+
+    this.x = leftRight;
+    this.y = upDown - 25;
     this.sprite = 'images/enemy-bug.png';
+    this.move = leftRight;
+    this.pathEnd = leftRight * 5;
+    this.pathStart = -leftRight;
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +22,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if(this.x < this.pathEnd) {
+        this.x += 300 * dt;
+    }
+    else {
+        this.x = this.pathStart;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -25,7 +39,40 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+class Hero {
+    constructor() {
+        this.upDown = 83;
+        this.leftRight = 101;
+        this.sprite = 'images/char-boy.png';
+        this.x = 101 * 2;
+        this.y = 83 * 5 - 25;
 
+    }
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+    //player movement
+    handleInput(input) {
+        switch(input) {
+            case 'left':
+                this.x -= 101;
+                break;
+            case 'right':
+                this.x += 101;
+                break;
+            case 'up':
+                this.y -= 83;
+                break;
+            case 'down':
+                this.y += 83;
+                break;
+        }
+    }
+};
+const player = new Hero();
+const volkswagen = new Enemy();
+const everyThingAwful = [];
+everyThingAwful.push(volkswagen);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
