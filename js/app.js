@@ -1,14 +1,10 @@
+let hitCounter = 0;
 leftRight = 101;
 upDown = 83;
 const variator = function() {
   return Math.floor(Math.random() * 2) + 1;
 }
-random = variator();
-// function variator(min, max) {
-//   min = Math.ceil(min);
-//   max = Math.floor();
-//   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
-// }
+random = variator(); //this will be used to create greater variations using math
 // Enemies our player must avoid
 var Enemy = function(x, y, mph) {
   // Variables applied to each of our instances go here,
@@ -53,36 +49,49 @@ class Hero {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
+  //will return player to starting row. Any block on bottom row
   backToBottom() {
     this.y = 83 * 4 + 55;
-    console.log('go back');
   }
   //Detect bug/player incident
   update() {
     for (let awfulness of everyThingAwful) {
-      // console.log(awfulness);
       if ((this.y <= awfulness.y + 19) && (this.y >= awfulness.y - 19) && (this.x <= awfulness.x + 55) && (this.x >= awfulness.x - 55)) {
-        console.log('AGHH!!');
         this.backToBottom();
+        hitCounter++;
       }
-      // console.log(this.y, awfulness.y);
     }
   }
   //player movement
   handleInput(input) {
     switch (input) {
-      case 'left':
-        this.x -= 101;
-        break;
-      case 'right':
-        this.x += 101;
-        break;
       case 'up':
-        this.y -= 83;
+        if (this.y > 0) {
+          this.y -= this.upDown;
+        }
         break;
       case 'down':
-        this.y += 83;
+        if (this.y < this.upDown * 4) {
+          this.y += this.upDown;
+        }
         break;
+      case 'right':
+        if (this.x < this.leftRight * 4) {
+          this.x += this.leftRight;
+        }
+        break;
+      case 'left':
+        if (this.x > this.leftRight * 0) {
+          this.x -= this.leftRight;
+        }
+        break;
+    }
+    if (this.y < 55) {
+      launchPlayerStats();
+      setTimeout(() => {
+        this.backToBottom();
+      }, 3000);
+      hitCounter = 0;
     }
   }
 };
@@ -91,7 +100,6 @@ const volkswagen = new Enemy(-101, 0, 200 * variator());
 const audi = new Enemy(-101, 83 * random, 300 * variator());
 const warranty = new Enemy(-101 * random, 166, 172 * variator());
 const everyThingAwful = [];
-console.log(everyThingAwful);
 everyThingAwful.push(volkswagen, audi, warranty);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -107,3 +115,21 @@ document.addEventListener('keyup', function(e) {
   };
   player.handleInput(allowedKeys[e.keyCode]);
 });
+//make stats buttons work
+const toggleStats = () => {
+  const statsBackground = document.querySelector('.stats-background');
+  statsBackground.classList.toggle('hide');
+};
+document.querySelector('.stats-play-btn').addEventListener('click', () => {
+  toggleStats();
+});
+const launchPlayerStats = () => {
+  const hitList = document.querySelector('.hit-list');
+  const hits = hitCounter;
+  hitList.innerHTML = `Number of Hits:   ${hits}`
+  const endMessage = document.querySelector('.stats-title');
+  endMessage.innerHTML = 'WOAH! That was INSANE.'
+  setTimeout(() => {
+    toggleStats();
+  }, 1500);
+};

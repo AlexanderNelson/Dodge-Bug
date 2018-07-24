@@ -1,3 +1,98 @@
 body {
     text-align: center;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sliding-background {
+  background: url("../images/geometry4.png") repeat-x;
+  position: absolute;
+  background-repeat: repeat;
+  z-index: -1;
+  height: 1150px;
+  width: 5076px;
+  animation: slide 360s linear infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1692px, 0, 0);
+  }
+}
+
+h1 {
+  color: #0ac7f1;
+  background: #7e7a7aa1;
+  border-radius: 25px;
+  padding: 0px 12px 0px 12px;
+}
+
+/*modal at game start and end*/
+.hide {
+  display: none;
+}
+
+.stats {
+  z-index: 2;
+  position: relative;
+  width: 500px;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  border-radius: 25px;
+  background: #fff url('../images/geometry4.png');
+}
+
+.stats-background {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(10, 50, 80, .5);
+}
+
+.stats-heading {
+  margin: 125px 0 0 0;
+}
+
+.stats-heading,
+.stats-list {
+  color: red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5em 2em;
+  background: none;
+  font-weight: 900;
+  font-size: 1em;
+  flex-direction: column;
+}
+
+.stats-play-btn {
+  background: -moz-linear-gradient(-45deg, rgba(252, 234, 187, 1) 0%, rgba(252, 205, 77, 1) 50%, rgba(248, 181, 0, 1) 51%, rgba(251, 223, 147, 1) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, rgba(252, 234, 187, 1) 0%, rgba(252, 205, 77, 1) 50%, rgba(248, 181, 0, 1) 51%, rgba(251, 223, 147, 1) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, rgba(252, 234, 187, 1) 0%, rgba(252, 205, 77, 1) 50%, rgba(248, 181, 0, 1) 51%, rgba(251, 223, 147, 1) 100%);
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 3px #999;
+}
+
+.stats-play-btn:active {
+  color: #fff;
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
+}
